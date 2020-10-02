@@ -13,7 +13,7 @@ class Game:
 	def __init__(self, width, height):
 		self.height = height
 		self.width = width
-		
+
 		self.initScreen() # Initialise screen settings
 		self.initVars()
 		self.run()
