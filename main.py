@@ -1,5 +1,7 @@
 import pygame
 import threading
+import map_object
+import enemies
 
 pygame.init()
 
@@ -11,16 +13,23 @@ class Game:
 	def __init__(self, width, height):
 		self.height = height
 		self.width = width
-
-		self.clock = pygame.time.Clock()
-		self.running = True
 		
 		self.initScreen() # Initialise screen settings
+		self.initVars()
 		self.run()
 
 	def initScreen(self):
 		self.gameScreen = pygame.display.set_mode([self.width, self.height]) # Set width and height
 		pygame.display.set_caption("Monkey Mullets")
+
+	def initVars(self):
+		self.clock = pygame.time.Clock()
+		self.running = True
+
+		self.mapObjects = []
+		self.enemies = []
+		
+		#self.player = Player()
 
 	def run(self):
 		
