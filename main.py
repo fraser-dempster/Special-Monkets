@@ -15,11 +15,11 @@ class Game:
 		self.clock = pygame.time.Clock()
 		self.running = True
 		
-		self.initScreen()
+		self.initScreen() # Initialise screen settings
 		self.run()
 
 	def initScreen(self):
-		self.gameScreen = pygame.display.set_mode([self.width, self.height])#
+		self.gameScreen = pygame.display.set_mode([self.width, self.height]) # Set width and height
 		pygame.display.set_caption("Monkey Mullets")
 
 	def run(self):
@@ -30,21 +30,22 @@ class Game:
 			self.update()
 			self.render()
 
-			self.clock.tick(60)
+			self.clock.tick(60) # Force game to 60 FPS
 
 	def update(self):
-		
+
+		# Quit game when needed
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				self.running = False
-				pygame.quit()
+				pygame.quit() 
 
 	def render(self):
 
 		pygame.display.update()
 
 def main():
-	game = Game(800,800)
+	game = Game(1280,720)
 
 if __name__ == "__main__":
 	main()
