@@ -18,5 +18,5 @@ class Enemy:
 	def update(self):
 		pass
 
-	def render(self):
-		pass
+	def render(self, gameDisplay):
+		gameDisplay.blit(self.image)
