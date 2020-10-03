@@ -7,6 +7,8 @@ import Player
 import bullet
 import image_loader
 import config
+import ghost
+import random
 import ui
 import menu
 import button
@@ -55,10 +57,19 @@ class Game:
 
 		self.clock = pygame.time.Clock()
 
+	def generate_list(self):
+		return [self.player,ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
+				ui.ui(self.player),
+				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
+				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
+				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
+				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
+				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
+				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player)]
 
 	def initVars(self):
 		self.player = Player.Player(500, 500)
-		self.entities = [self.player, enemy.Enemy(200, 200, self.player), enemy.Enemy(400, 400, self.player), ui.ui(self.player)]
+		self.entities = self.generate_list()
 		self.level = 1
 		self.running = True
 	
