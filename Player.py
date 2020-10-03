@@ -7,13 +7,20 @@ class Player(object):
 		self.x = x
 		self.y = y
 		self.rect = pygame.Rect(x, y, 10, 10)
+
+		self.initialiseVars()
+
+	def initialiseVars(self):
 		self.image = image_loader.AnimatedImage("MulletMonkey_Idle", 96, 148)
 		self.images = [] # Make list with all the animated images
 		self.lastpressedkey = 0
 
+		imageFiles = ["MulletMonkey_Idle", "MulletMonkey_MoveDown", "MulletMonkey_MoveUp", "MulletMonkey_WalkLeft", "MulletMonkey_WalkRight"]
+
+		for name in imageFiles:
+			self.images.append(image_loader.AnimatedImage(name, 96, 148))
 
 	def render(self, display):
-		#pygame.draw.rect(display, (255, 0, 0), self.rect, 50)
 		self.image.render(display, self.rect.x, self.rect.y)
 
 	def update(self):
@@ -30,24 +37,27 @@ class Player(object):
 		if keys[pygame.K_w]:
 			if (self.lastpressedkey != 1 and not self.going_diagonal(keys)):
 				self.lastpressedkey = 1
-				self.image = image_loader.AnimatedImage("MulletMonkey_MoveUp", 96, 148)
+				self.image = self.images[2]
 			self.rect.y -= 5
 
 		if keys[pygame.K_s]:
 			if (self.lastpressedkey != 2 and not self.going_diagonal(keys)):
 				self.lastpressedkey = 2
-				self.image = image_loader.AnimatedImage("MulletMonkey_MoveDown", 96, 148)
+				self.image = self.images[1]
 			self.rect.y += 5
 
 		if keys[pygame.K_a]:
 			if (self.lastpressedkey != 3 and not self.going_diagonal(keys)):
 				self.lastpressedkey = 3
-				self.image = image_loader.AnimatedImage("MulletMonkey_WalkLeft", 96, 148)
+				self.image = self.images[3]
 			self.rect.x -= 5
 
 		if keys[pygame.K_d]:
 			if (self.lastpressedkey != 4 and not self.going_diagonal(keys)):
 				self.lastpressedkey = 4
-				self.image = image_loader.AnimatedImage("MulletMonkey_WalkRight", 96, 148)
+				self.image = self.images[4]
+			self.rect.x += 5
 
-			self.rect.x += 5 
+		if (not keys[pygame.K_w]) and (not keys[pygame.K_s]) and (not keys[pygame.K_d]) and (not keys[pygame.K_a]):
+			self.image = self.images[0]
+			self.lastpressedkey = 0

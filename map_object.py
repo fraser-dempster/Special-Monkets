@@ -1,12 +1,12 @@
 import pygame
+import image_loader
 
 class mapObject:
 
-	def __init__(self, x, y):
+	def __init__(self, x, y, type):
 		self.x, self.y = x, y
 
-	def render(self):
-		pass
+		# self.image = 
 
-	def update(self):
+	def render(self):
 		pass
