@@ -16,7 +16,7 @@ class AnimatedImage:
 		for path in os.listdir(f"images\\{p}"):
 			self.imageList.append(pygame.image.load(f"images\\{p}\\{path}"))
 		for i in range(len(self.imageList)):
-			self.imageList[i] = pygame.transform.scale(self.imageList[i], (48, 72))
+			self.imageList[i] = pygame.transform.scale(self.imageList[i], (96, 148))
 
 	def render(self, display, x, y):
 		self.timer += 1;
