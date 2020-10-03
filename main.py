@@ -7,7 +7,7 @@ import Player
 import bullet
 import image_loader
 import config
-import pygame_menu
+import ui
 
 WHITE = 255,255,255
 BLACK = 0,0,0
@@ -21,30 +21,28 @@ class Game:
 		self.running = False
 		self.initScreen() # Initialise screen settings
 		self.initSounds()
-		self.initMenu()
+
+		self.runMenu()
+
+		self.initVars()
 		self.run()
 
-	def initMenu(self):
-		menu = pygame_menu.Menu(300, 400, 'Welcome',
-												 theme=pygame_menu.themes.THEME_BLUE)
-
-		menu.add_text_input('Name :', default='John Doe')
-		menu.add_selector('Difficulty :', [('Hard', 1), ('Easy', 2)])
-		menu.add_button('Play', self.initVars())
-		menu.add_button('Quit', pygame_menu.events.EXIT)
 		
+	def runMenu(self):
+		pass
+		
+
 	def initScreen(self):
 		self.gameScreen = pygame.display.set_mode([self.width, self.height]) # Set width and height
 		pygame.display.set_caption("Monkey Mullets")
 		icon = pygame.image.load("images\\MulletMonkeyIcon.PNG")
 		pygame.display.set_icon(icon)
-		
 		pygame.display.set_mode()
 
 	def initVars(self):
 		self.clock = pygame.time.Clock()
 		self.player = Player.Player(500, 500)
-		self.entities = [self.player, enemy.Enemy(200, 200, self.player), enemy.Enemy(400, 400, self.player)]
+		self.entities = [self.player, enemy.Enemy(200, 200, self.player), enemy.Enemy(400, 400, self.player), ui.ui(self.player)]
 		self.level = 1
 		self.running = True
 	
@@ -93,7 +91,8 @@ class Game:
 				pygame.quit()
 
 			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_SPACE:
+				if event.key == pygame.K_SPACE and self.player.bananas > 0:
+					self.player.bananas -= 1
 					self.entities.append(bullet.bullet(self.player.rect.x, self.player.rect.y, x, y))
 
 		for entity in self.entities:
@@ -103,10 +102,13 @@ class Game:
 
 			if isinstance(entity, bullet.bullet):
 				for collision_entity in self.entities:
-					if isinstance(collision_entity, enemy.Enemy) and entity.rect.colliderect(collision_entity.rect):
-						entity.hascollided = True
+					if isinstance(collision_entity, enemy.Enemy) and entity.isactive and entity.rect.colliderect(collision_entity.rect):
+						entity.disable()
 						collision_entity.hascollided = True
 						self.sounds['impact'].play()
+					elif isinstance(collision_entity, Player.Player) and not entity.isactive and entity.rect.colliderect(collision_entity.rect):
+						collision_entity.bananas += 1
+						entity.hascollided = True
 
 			if isinstance(entity, Player.Player):
 				for collision_entity in self.entities:
@@ -136,7 +138,7 @@ def main():
 	pygame.mixer.init() 
 	pygame.init()
 
-	game = Game(1280,720)
+	game = Game(config.SCREENX, config.SCREENY)
 
 if __name__ == "__main__":
 	main()

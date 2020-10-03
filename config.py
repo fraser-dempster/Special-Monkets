@@ -1,6 +1,6 @@
 # bullet.py
 BULLET_SPEED = 10
-BULLET_LIFETIME = 50
+BULLET_LIFETIME = 25
 BULLET_XSIZE = int(32 / 2)
 BULLET_YSIZE = int(32 / 2)
 
@@ -19,3 +19,19 @@ PLAYER_YSIZE = int(120 / 2)
 
 DEFAULT_IMAGE_SIZEX = int(50 / 1)
 DEFAULT_IMAGE_SIZEY = int(120 / 1)
+
+# main.py
+
+SCREENX = 1280
+SCREENY = 720
+
+# uibanana.py
+UIBANANA_XSIZE = 64
+UIBANANA_YSIZE = 64
+
+# ui.py
+PADDING = 10
+
+UI_X = 74
+UI_Y = 10
+

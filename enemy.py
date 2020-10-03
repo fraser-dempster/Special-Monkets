@@ -13,7 +13,7 @@ class Enemy(object):
         self.y = y
         self.player = player
         self.image = image_loader.AnimatedImage("MulletMonkey_Idle", xsize = self.xsize, ysize = self.ysize)
-      #  self.image = pygame.transform.scale(self.image, )
+      # self.image = pygame.transform.scale(self.image, )
         self.rect = pygame.Rect(x, y, self.xsize, self.ysize)
 
         self.hascollided = False

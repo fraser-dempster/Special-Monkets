@@ -17,6 +17,7 @@ class bullet(object):
         self.rect = self.rect = pygame.Rect(x, y, self.xsize, self.ysize)
 
         self.hascollided = False
+        self.isactive = True
 
     def render(self, display):
         self.image.render(display, self.rect.x, self.rect.y)
@@ -26,8 +27,15 @@ class bullet(object):
         self.rect.x += self.x_vel
 
         self.lifetime -= 1
-    
-    def isDestroyed(self):
-        return self.lifetime <= 0 or self.hascollided
 
-    
+        if self.lifetime <= 0:
+            self.disable()
+
+    def isDestroyed(self):
+        return self.hascollided
+
+    def disable(self):
+        self.x_vel = 0
+        self.y_vel = 0
+        self.isactive = False
+
