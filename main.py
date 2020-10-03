@@ -28,7 +28,7 @@ class Game:
 	def initVars(self):
 		self.clock = pygame.time.Clock()
 		self.running = True
-		self.player = Player.Player(500, 500, 20)
+		self.player = Player.Player(500, 500)
 
 		self.mapObjects = []
 		self.enemies = []
