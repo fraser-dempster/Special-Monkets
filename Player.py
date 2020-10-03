@@ -19,9 +19,11 @@ class Player(object):
 	def update(self):
 		self.move()
 	
+	def isDestroyed(self):
+		return False
+
 	def going_diagonal(self, keys):
 		return (keys[pygame.K_w] + keys[pygame.K_s] + keys[pygame.K_a] + keys[pygame.K_d]) > 1
-
 
 	def move(self):
 		keys = pygame.key.get_pressed()

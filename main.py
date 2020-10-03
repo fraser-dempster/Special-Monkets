@@ -32,11 +32,7 @@ class Game:
 		self.clock = pygame.time.Clock()
 		self.running = True
 		self.player = Player.Player(500, 500)
-
-		self.mapObjects = []
-		self.enemies = []
-		self.bullets = []
-
+		self.entities = [self.player, enemy.Enemy(200, 200, self.player), enemy.Enemy(400, 400, self.player)]
 		self.level = 1
 
 
@@ -65,25 +61,16 @@ class Game:
 				pygame.quit()
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_SPACE:
-					self.bullets.append(bullet.bullet(self.player.rect.x, self.player.rect.y, x, y))
+					self.entities.append(bullet.bullet(self.player.rect.x, self.player.rect.y, x, y))
 
-		self.player.update()
-
-		for bullet_ in self.bullets:
-			if bullet_.lifetime <= 0:
-				self.bullets.pop(self.bullets.index(bullet_))
-			bullet_.render(self.gameScreen)
-
-		for enemy in self.enemies:
-			enemy.move_towards_player(self.player)
+		for entity in self.entities:
+			entity.update()
+			
+		self.entites = [x for x in self.entities if not x.isDestroyed()]	
 
 	def render(self):
-
-		self.player.render(self.gameScreen)
-
-		for enemy in self.enemies:
-			enemy.draw(self.gameScreen)
-
+		for entity in self.entites:
+			entity.render(self.gameScreen)
 		pygame.display.update()
 
 def main():
