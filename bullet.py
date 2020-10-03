@@ -1,5 +1,6 @@
-import math
 import pygame
+import math
+import image_loader
 
 class bullet(object):
     def __init__(self, x, y, mouse_x, mouse_y):
@@ -12,13 +13,14 @@ class bullet(object):
         self.angle = math.atan2(mouse_y-self.y, mouse_x-self.x)
         self.x_vel = math.cos(self.angle) * self.speed
         self.y_vel = math.sin(self.angle) * self.speed
+        self.image = image_loader.AnimatedImage("ThrowingBanana")
         self.radius = 5
+        self.rect = pygame.Rect(x, y, 10, 10)
 
     def render(self, display):
         self.x += int(self.x_vel)
         self.y += int(self.y_vel)
-
-        pygame.draw.circle(display, (255, 255, 0), (self.x, self.y), self.radius)
+        self.image.render(display, self.x, self.y)
         self.lifetime -= 1
     
     def update(self):

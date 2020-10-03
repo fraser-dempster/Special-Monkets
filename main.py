@@ -42,7 +42,7 @@ class Game:
 	def run(self):
 		
 		while self.running:
-			self.gameScreen.fill(WHITE) #Reset game screen
+			self.gameScreen.fill(BLACK) #Reset game screen
 
 			self.update()
 			self.render()
