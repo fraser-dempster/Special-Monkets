@@ -36,8 +36,7 @@ class Game:
 
 		self.level = 1
 		
-		###
-		self.enemies.append(enemy.enemyObject(0, 0, 30))
+		#self.enemies.append(enemy.enemyObject(0, 0, 30))
 
 	def run(self):
 		
