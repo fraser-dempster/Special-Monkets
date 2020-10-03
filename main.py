@@ -2,7 +2,9 @@ import pygame
 import threading
 import os
 import map_object
-import enemies
+import enemy
+import Player
+import bullet
 
 pygame.init()
 
@@ -26,11 +28,14 @@ class Game:
 	def initVars(self):
 		self.clock = pygame.time.Clock()
 		self.running = True
+		self.player = Player.Player(500, 500, 20)
 
 		self.mapObjects = []
 		self.enemies = []
+		self.bullets = []
 		
-		#self.player = Player()
+		###
+		self.enemy = enemy.enemyObject(0, 0, 30)
 
 	def run(self):
 		
@@ -45,12 +50,41 @@ class Game:
 	def update(self):
 
 		# Quit game when needed
+		x, y = pygame.mouse.get_pos()
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				self.running = False
-				pygame.quit() 
+				pygame.quit()
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_SPACE:
+					print("HEllo")
+					self.bullets.append(bullet.bullet(self.player.rect.x, self.player.rect.y, x, y))
+
+		keys = pygame.key.get_pressed()
+		if keys[pygame.K_w]:
+			self.player.rect.y -= 5
+
+		if keys[pygame.K_s]:
+			self.player.rect.y += 5
+
+		if keys[pygame.K_a]:
+			self.player.rect.x -= 5
+
+		if keys[pygame.K_d]:
+			self.player.rect.x += 5 
+
+		for bullet_ in self.bullets:
+			print("bullet")
+			if bullet_.lifetime <= 0:
+				self.bullets.pop(self.bullets.index(bullet_))
+			bullet_.render(self.gameScreen)
 
 	def render(self):
+
+		self.player.render(self.gameScreen)
+
+		self.enemy.move_towards_player(self.player)
+		self.enemy.draw(self.gameScreen)
 
 		pygame.display.update()
 
