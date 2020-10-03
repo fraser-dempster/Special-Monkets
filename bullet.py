@@ -13,7 +13,7 @@ class bullet(object):
         self.angle = math.atan2(mouse_y-self.y, mouse_x-self.x)
         self.x_vel = math.cos(self.angle) * self.speed
         self.y_vel = math.sin(self.angle) * self.speed
-        self.image = image_loader.AnimatedImage("ThrowingBanana")
+        self.image = image_loader.AnimatedImage("ThrowingBanana", 20, 40)
         self.radius = 5
         self.rect = pygame.Rect(x, y, 10, 10)
 

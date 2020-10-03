@@ -12,7 +12,7 @@ class Enemy(object):
         self.y = y
         self.rect = pygame.Rect(x, y, 20, 20)
         self.player = player
-        self.image = image_loader.AnimatedImage("MulletMonkey_Idle")
+        self.image = image_loader.AnimatedImage("MulletMonkey_Idle", 96, 148)
         
     def render(self, display):
         self.image.render(display, self.rect.x, self.rect.y)

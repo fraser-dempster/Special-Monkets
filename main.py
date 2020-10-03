@@ -35,8 +35,6 @@ class Game:
 		self.entities = [self.player, enemy.Enemy(200, 200, self.player), enemy.Enemy(400, 400, self.player)]
 		self.level = 1
 
-
-		
 		#self.enemies.append(enemy.enemyObject(0, 0, 30))
 
 	def run(self):

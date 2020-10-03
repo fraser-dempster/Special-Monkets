@@ -3,20 +3,20 @@ import os
 
 class AnimatedImage:
 
-	def __init__(self, path):
+	def __init__(self, path, width, height):
 		self.imageList = []
 		self.timer = 0
 		self.threshold = 30
 		self.imageIndex = 0
 		self.active = False
 
-		self.loadAllImages(path)
+		self.loadAllImages(path, width, height)
 
-	def loadAllImages(self, p):
+	def loadAllImages(self, p, width, height):
 		for path in os.listdir(f"images\\{p}"):
 			self.imageList.append(pygame.image.load(f"images\\{p}\\{path}"))
 		for i in range(len(self.imageList)):
-			self.imageList[i] = pygame.transform.scale(self.imageList[i], (96, 148))
+			self.imageList[i] = pygame.transform.scale(self.imageList[i], (width, height))
 
 	def render(self, display, x, y):
 		self.timer += 1;
