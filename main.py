@@ -24,6 +24,8 @@ class Game:
 	def initScreen(self):
 		self.gameScreen = pygame.display.set_mode([self.width, self.height]) # Set width and height
 		pygame.display.set_caption("Monkey Mullets")
+		icon = pygame.image.load("images\\MulletMonkeyIcon.PNG")
+		pygame.display.set_icon(icon)
 
 	def initVars(self):
 		self.clock = pygame.time.Clock()
