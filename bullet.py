@@ -1,31 +1,32 @@
 import pygame
 import math
 import image_loader
+import config
 
 class bullet(object):
     def __init__(self, x, y, mouse_x, mouse_y):
-        self.x = x
-        self.y = y
-        self.mouse_x = mouse_x
-        self.mouse_y = mouse_y
-        self.lifetime = 50
-        self.speed = 15
-        self.angle = math.atan2(mouse_y-self.y, mouse_x-self.x)
+        self.lifetime = config.BULLET_LIFETIME
+        self.speed = config.BULLET_SPEED
+        self.xsize = config.BULLET_XSIZE
+        self.ysize = config.BULLET_YSIZE
+
+        self.angle = math.atan2(mouse_y-y, mouse_x-x)
         self.x_vel = math.cos(self.angle) * self.speed
         self.y_vel = math.sin(self.angle) * self.speed
-        self.image = image_loader.AnimatedImage("ThrowingBanana", 20, 40)
-        self.radius = 5
-        self.rect = pygame.Rect(x, y, 10, 10)
+        self.image = image_loader.AnimatedImage("ThrowingBanana", xsize = self.xsize, ysize = self.ysize)
+        self.rect = self.rect = pygame.Rect(x, y, self.xsize, self.ysize)
+
+        self.hascollided = False
 
     def render(self, display):
-        self.x += int(self.x_vel)
-        self.y += int(self.y_vel)
-        self.image.render(display, self.x, self.y)
-        self.lifetime -= 1
+        self.image.render(display, self.rect.x, self.rect.y)
     
     def update(self):
-        pass
+        self.rect.y += self.y_vel
+        self.rect.x += self.x_vel
+
+        self.lifetime -= 1
     
     def isDestroyed(self):
-        if self.lifetime <= 0:
+        if self.lifetime <= 0 or self.hascollided == True:
              return True

@@ -6,9 +6,14 @@ import enemy
 import Player
 import bullet
 import image_loader
+import config
 
 WHITE = 255,255,255
 BLACK = 0,0,0
+
+pygame.init()
+pygame.mixer.pre_init(44100, 16, 2, 4096)
+pygame.mixer.init() 
 
 class Game:
 
@@ -16,10 +21,6 @@ class Game:
 		self.height = height
 		self.width = width
 
-		pygame.init()
-		pygame.mixer.pre_init(44100, 16, 2, 4096)
-		pygame.mixer.init() 
-		print(os.getcwd())
 
 		self.initScreen() # Initialise screen settings
 		self.initVars()
@@ -53,6 +54,8 @@ class Game:
 			self.music[m].set_volume(0.5)
 		self.music['robot'].play(-1)
 
+
+		
 		#self.enemies.append(enemy.enemyObject(0, 0, 30))
 
 	def run(self):
@@ -75,13 +78,25 @@ class Game:
 			if event.type == pygame.QUIT:
 				self.running = False
 				pygame.quit()
+
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_SPACE:
 					self.entities.append(bullet.bullet(self.player.rect.x, self.player.rect.y, x, y))
 
 		for entity in self.entities:
 			entity.update()
-			
+
+			# Check for bullet-enemy collision
+
+			if isinstance(entity, bullet.bullet):
+				for collision_entity in self.entities:
+					if isinstance(collision_entity, enemy.Enemy) and entity.rect.colliderect(collision_entity.rect):
+						entity.hascollided = True
+						collision_entity.hascollided = True
+						
+		
+
+
 		self.entites = [x for x in self.entities if not x.isDestroyed()]	
 
 	def render(self):
