@@ -20,3 +20,10 @@ class bullet(object):
 
         pygame.draw.circle(display, (255, 255, 0), (self.x, self.y), self.radius)
         self.lifetime -= 1
+    
+    def update(self):
+        pass
+    
+    def isDestroyed(self):
+        if self.lifetime <= 0:
+             return True
