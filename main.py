@@ -7,8 +7,6 @@ import Player
 import bullet
 import image_loader
 
-pygame.init()
-
 WHITE = 255,255,255
 BLACK = 0,0,0
 
@@ -18,8 +16,14 @@ class Game:
 		self.height = height
 		self.width = width
 
+		pygame.init()
+		pygame.mixer.pre_init(44100, 16, 2, 4096)
+		pygame.mixer.init() 
+		print(os.getcwd())
+
 		self.initScreen() # Initialise screen settings
 		self.initVars()
+		self.initSounds()
 		self.run()
 
 	def initScreen(self):
@@ -27,6 +31,8 @@ class Game:
 		pygame.display.set_caption("Monkey Mullets")
 		icon = pygame.image.load("images\\MulletMonkeyIcon.PNG")
 		pygame.display.set_icon(icon)
+		
+		pygame.display.set_mode()
 
 	def initVars(self):
 		self.clock = pygame.time.Clock()
@@ -34,6 +40,18 @@ class Game:
 		self.player = Player.Player(500, 500)
 		self.entities = [self.player, enemy.Enemy(200, 200, self.player), enemy.Enemy(400, 400, self.player)]
 		self.level = 1
+	
+	def initSounds(self):
+		self.music = {
+			'robot': pygame.mixer.Sound("./sounds/music/robot monkey invasion.ogg"), 
+			'spooky': pygame.mixer.Sound("./sounds/music/battle music spooky.ogg"),
+			'normal': pygame.mixer.Sound("./sounds/music/battle music.ogg"),
+			'lofi': pygame.mixer.Sound("./sounds/music/lofi v3.ogg")
+		}
+
+		for m in self.music:
+			self.music[m].set_volume(0.5)
+		self.music['robot'].play(-1)
 
 		#self.enemies.append(enemy.enemyObject(0, 0, 30))
 
