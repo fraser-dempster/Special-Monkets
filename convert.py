@@ -9,7 +9,7 @@ from pygame.rect import Rect
 pygame.init()
 
 clock = pygame.time.Clock()
-display = pygame.display.set_mode((1400, 800))
+display = pygame.display.set_mode((800, 600))
 
 run = True
 
@@ -18,9 +18,11 @@ class playerObject(object):
         self.x = x
         self.y = y
         self.radius = radius
+        self.rect = pygame.Rect(x, y, 10, 10)
+
 
     def draw(self, display):
-        pygame.draw.circle(display, (255, 0, 0), (self.x, self.y), self.radius)
+        pygame.draw.rect(display, (255, 0, 0), self.rect, 50)
 
 player = playerObject(random.randint(0, 500), random.randint(0, 500), 20)
 
@@ -29,14 +31,17 @@ class enemyObject(object):
         self.x = x
         self.y = y
         self.width = width
+        self.rect = pygame.Rect(100, 100, 20, 20)
+        
 
     def draw(self, display):
-        self.rect = pygame.Rect(100, 100, 20, 20)
         pygame.draw.rect(display, (0, 255, 0), self.rect, 50)
 
     def move_towards_player(self, player):
+        print(player.rect.x, self.rect.x, player.rect.y, self.rect.y)
         dirvect = pygame.math.Vector2(player.rect.x - self.rect.x, player.rect.y - self.rect.y)
-        dirvect.normalize()
+        if dirvect.length() > 0:
+            dirvect.normalize()
         dirvect.scale_to_length(5)
         self.rect.move_ip(dirvect)
 
@@ -53,16 +58,16 @@ while run:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
-        player.y -= 5
+        player.rect.y -= 5
 
     if keys[pygame.K_s]:
-        player.y += 5
+        player.rect.y += 5
 
     if keys[pygame.K_a]:
-        player.x -= 5
+        player.rect.x -= 5
 
     if keys[pygame.K_d]:
-        player.x += 5
+        player.rect.x += 5
 
     # print(player.x)
     # print(player.y)
@@ -76,7 +81,7 @@ while run:
     # print(angle)
     # print(degrees)
 
-    # enemy.move_towards_player(player)
+    enemy.move_towards_player(player)
     enemy.draw(display)
     player.draw(display)
     clock.tick(60)
