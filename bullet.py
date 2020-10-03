@@ -29,3 +29,5 @@ class bullet(object):
     
     def isDestroyed(self):
         return self.lifetime <= 0 or self.hascollided
+
+    

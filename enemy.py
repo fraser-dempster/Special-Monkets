@@ -1,5 +1,3 @@
-from turtle import width
-
 import pygame
 import random
 import math
