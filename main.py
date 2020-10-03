@@ -8,6 +8,8 @@ import bullet
 import image_loader
 import config
 import ui
+import menu
+import button
 
 WHITE = 255,255,255
 BLACK = 0,0,0
@@ -21,16 +23,28 @@ class Game:
 		self.running = False
 		self.initScreen() # Initialise screen settings
 		self.initSounds()
-
-		self.runMenu()
-
+		if (not self.runMenu()):
+			return
 		self.initVars()
 		self.run()
 
 		
 	def runMenu(self):
-		pass
-		
+		m = menu.menu(self.gameScreen)
+		b = button.button(self.gameScreen)
+		pygame.display.update()
+		running = True
+		while running:
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					return False 
+				if event.type == pygame.MOUSEBUTTONDOWN:
+					if event.button == 1:
+						if b.rect.collidepoint(event.pos):
+							self.music['CATDOG'].stop()
+							self.music['normal'].play(-1)
+							return True
+			
 
 	def initScreen(self):
 		self.gameScreen = pygame.display.set_mode([self.width, self.height]) # Set width and height
@@ -39,8 +53,10 @@ class Game:
 		pygame.display.set_icon(icon)
 		pygame.display.set_mode()
 
-	def initVars(self):
 		self.clock = pygame.time.Clock()
+
+
+	def initVars(self):
 		self.player = Player.Player(500, 500)
 		self.entities = [self.player, enemy.Enemy(200, 200, self.player), enemy.Enemy(400, 400, self.player), ui.ui(self.player)]
 		self.level = 1
@@ -51,7 +67,8 @@ class Game:
 			'robot': pygame.mixer.Sound("./sounds/music/robot monkey invasion.ogg"), 
 			'spooky': pygame.mixer.Sound("./sounds/music/battle music spooky.ogg"),
 			'normal': pygame.mixer.Sound("./sounds/music/battle music.ogg"),
-			'lofi': pygame.mixer.Sound("./sounds/music/lofi v3.ogg")
+			'lofi': pygame.mixer.Sound("./sounds/music/lofi v3.ogg"),
+			'CATDOG': pygame.mixer.Sound("./sounds/music/CATDOG.ogg")
 		}
 
 		self.sounds = {
@@ -64,7 +81,8 @@ class Game:
 
 		for m in self.music:
 			self.music[m].set_volume(0.5)
-		self.music['robot'].play(-1)
+		self.music['CATDOG'].set_volume(1)
+		self.music['CATDOG'].play(-1)
 
 
 		
@@ -137,7 +155,7 @@ def main():
 	pygame.mixer.pre_init(44100, -16, 2, 512)
 	pygame.mixer.init() 
 	pygame.init()
-
+	os.environ['SDL_VIDEO_CENTERED'] = '1'
 	game = Game(config.SCREENX, config.SCREENY)
 
 if __name__ == "__main__":
