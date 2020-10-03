@@ -18,7 +18,6 @@ class Enemy(object):
         self.image.render(display, self.rect.x, self.rect.y)
 
     def move_towards_player(self, player):
-        print(player.rect.x, self.rect.x, player.rect.y, self.rect.y)
         dirvect = pygame.math.Vector2(player.rect.x - self.rect.x, player.rect.y - self.rect.y)
         if dirvect.length() > 0:
             dirvect.scale_to_length(5)
