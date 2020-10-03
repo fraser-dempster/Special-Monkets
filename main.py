@@ -5,6 +5,7 @@ import map_object
 import enemy
 import Player
 import bullet
+import image_loader
 
 pygame.init()
 
@@ -37,6 +38,9 @@ class Game:
 		self.bullets = []
 
 		self.level = 1
+
+		self.lastpressedkey = 0
+
 		
 		#self.enemies.append(enemy.enemyObject(0, 0, 30))
 
@@ -49,6 +53,9 @@ class Game:
 			self.render()
 
 			self.clock.tick(60) # Force game to 60 FPS
+
+	def going_diagonal(self, keys):
+		return (keys[pygame.K_w] + keys[pygame.K_s] + keys[pygame.K_a] + keys[pygame.K_d]) > 1
 
 	def update(self):
 
@@ -64,15 +71,28 @@ class Game:
 
 		keys = pygame.key.get_pressed()
 		if keys[pygame.K_w]:
+			if (self.lastpressedkey != 1 and not self.going_diagonal(keys)):
+				self.lastpressedkey = 1
+				self.player.image = image_loader.AnimatedImage("MulletMonkey_MoveUp")
 			self.player.rect.y -= 5
 
 		if keys[pygame.K_s]:
+			if (self.lastpressedkey != 2 and not self.going_diagonal(keys)):
+				self.lastpressedkey = 2
+				self.player.image = image_loader.AnimatedImage("MulletMonkey_MoveDown")
 			self.player.rect.y += 5
 
 		if keys[pygame.K_a]:
+			if (self.lastpressedkey != 3 and not self.going_diagonal(keys)):
+				self.lastpressedkey = 3
+				self.player.image = image_loader.AnimatedImage("MulletMonkey_WalkLeft")
 			self.player.rect.x -= 5
 
 		if keys[pygame.K_d]:
+			if (self.lastpressedkey != 4 and not self.going_diagonal(keys)):
+				self.lastpressedkey = 4
+				self.player.image = image_loader.AnimatedImage("MulletMonkey_WalkRight")
+
 			self.player.rect.x += 5 
 
 		for bullet_ in self.bullets:
