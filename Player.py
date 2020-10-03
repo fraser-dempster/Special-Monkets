@@ -1,24 +1,27 @@
 import pygame
 import math
 import image_loader
+import config
 
 class Player(object):
 	def __init__(self, x, y):
 		self.x = x
 		self.y = y
-		self.rect = pygame.Rect(x, y, 10, 10)
+		self.xsize = config.PLAYER_XSIZE
+		self.ysize = config.PLAYER_YSIZE
+		self.rect = pygame.Rect(x, y, self.xsize, self.ysize)
 
 		self.initialiseVars()
 
 	def initialiseVars(self):
-		self.image = image_loader.AnimatedImage("MulletMonkey_Idle", 96, 148)
+		self.image = image_loader.AnimatedImage("MulletMonkey_Idle", self.xsize, self.ysize)
 		self.images = [] # Make list with all the animated images
 		self.lastpressedkey = 0
 
 		imageFiles = ["MulletMonkey_Idle", "MulletMonkey_MoveDown", "MulletMonkey_MoveUp", "MulletMonkey_WalkLeft", "MulletMonkey_WalkRight"]
 
 		for name in imageFiles:
-			self.images.append(image_loader.AnimatedImage(name, 96, 148))
+			self.images.append(image_loader.AnimatedImage(name, xsize = self.xsize, ysize = self.ysize))
 
 	def render(self, display):
 		self.image.render(display, self.rect.x, self.rect.y)

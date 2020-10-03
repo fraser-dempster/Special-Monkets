@@ -28,5 +28,4 @@ class bullet(object):
         self.lifetime -= 1
     
     def isDestroyed(self):
-        if self.lifetime <= 0 or self.hascollided == True:
-             return True
+        return self.lifetime <= 0 or self.hascollided

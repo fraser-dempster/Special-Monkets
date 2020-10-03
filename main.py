@@ -68,7 +68,6 @@ class Game:
 
 			self.clock.tick(60) # Force game to 60 FPS
 
-
 	def update(self):
 
 		# Quit game when needed
@@ -94,13 +93,11 @@ class Game:
 						entity.hascollided = True
 						collision_entity.hascollided = True
 						
-		
+		self.entities = [x for x in self.entities if not x.isDestroyed()]	
 
-
-		self.entites = [x for x in self.entities if not x.isDestroyed()]	
 
 	def render(self):
-		for entity in self.entites:
+		for entity in self.entities:
 			entity.render(self.gameScreen)
 		pygame.display.update()
 
