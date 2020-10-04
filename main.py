@@ -7,7 +7,6 @@ import Player
 import bullet
 import image_loader
 import config
-import pygame_menu
 
 WHITE = 255,255,255
 BLACK = 0,0,0
@@ -21,17 +20,9 @@ class Game:
 		self.running = False
 		self.initScreen() # Initialise screen settings
 		self.initSounds()
-		self.initMenu()
+		self.initVars()
+
 		self.run()
-
-	def initMenu(self):
-		menu = pygame_menu.Menu(300, 400, 'Welcome',
-												 theme=pygame_menu.themes.THEME_BLUE)
-
-		menu.add_text_input('Name :', default='John Doe')
-		menu.add_selector('Difficulty :', [('Hard', 1), ('Easy', 2)])
-		menu.add_button('Play', self.initVars())
-		menu.add_button('Quit', pygame_menu.events.EXIT)
 		
 	def initScreen(self):
 		self.gameScreen = pygame.display.set_mode([self.width, self.height]) # Set width and height
@@ -136,7 +127,7 @@ def main():
 	pygame.mixer.init() 
 	pygame.init()
 
-	game = Game(1280,720)
+	game = Game(1280, 720)
 
 if __name__ == "__main__":
 	main()

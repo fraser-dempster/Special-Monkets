@@ -27,7 +27,13 @@ class MapLoader:
 			self.imageList.append(tempList)
 
 	def loadMap(self):
-		
+		for itemList in self.imageList:
+			tempList = []
+			for item in itemList:
+				if item == 0:
+					tempList.append(self.imageList)
+				else:
+					pass
 
 	def render(self, display):
 		i, j = 0, 0

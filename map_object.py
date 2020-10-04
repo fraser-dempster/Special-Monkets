@@ -3,7 +3,7 @@ import config
 
 class mapObject:
 
-	def __init__(self, x, y, width=config.DEFAULT_IMAGE_SIZEX, height=config.DEFAULT_IMAGE_SIZEY, typeObject):
+	def __init__(self, x, y, typeObject, width=config.DEFAULT_IMAGE_SIZEX, height=config.DEFAULT_IMAGE_SIZEY):
 		self.x, self.y = x, y
 		self.width, self.height = width, height
 		
