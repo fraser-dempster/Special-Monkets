@@ -16,6 +16,7 @@ import mapobject2
 import maploader2
 import retry
 import zombie
+import spawnloader
 
 if getattr(sys, 'frozen', False):
     os.chdir(sys._MEIPASS)
@@ -32,9 +33,11 @@ class Game:
 		self.running = False
 		self.initScreen() # Initialise screen settings
 		self.initSounds()
-		self.maploader = maploader2.maploader2("./test.txt")
 		self.level = 1
-		self.level1 = self.maploader.maplist
+		self.player = Player.Player(500, 500)
+
+		self.levellist = [[maploader2.maploader2("./testmap1.txt", "testmap1_trees.txt").maplist, spawnloader.spawnloader("./ghostmap.txt", self.player).enemylist]]
+
 
 		if (not self.runMenu()):
 			return
@@ -69,7 +72,7 @@ class Game:
 		self.clock = pygame.time.Clock()
 
 	def generate_list(self):
-		levellist = [self.player,ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player), ui.ui(self.player)]
+		levellist = [self.player, ui.ui(self.player)]
 		for i in range(self.level * 3 - 1):
 			x = random.randint(0, config.SCREENX)
 			y = random.randint(0, config.SCREENY)
@@ -82,10 +85,13 @@ class Game:
 
 	def initVars(self, level):
 		self.win = 0
-		self.player = Player.Player(500, 500)
+		self.player.rect.x = 500
+		self.player.rect.y = 500
+
+
 		#self.mapobjects = [mapobject2.mapobject2(100, 100, True, 1)]
-		self.mapobjects = self.level1
-		self.entities = self.generate_list()
+		self.mapobjects = self.levellist[self.level - 1][0]
+		self.entities = self.levellist[self.level - 1][1]
 		for mapentitylist in self.mapobjects:
 			for mapentity in mapentitylist:
 				mapentity.refresh = 1
@@ -207,8 +213,21 @@ class Game:
 		for mapentitylist in self.mapobjects:
 			for mapentity in mapentitylist:
 				for collision_entity in self.entities:
-					if (isinstance(collision_entity, enemy.Enemy) or isinstance(collision_entity, Player.Player) or isinstance(collision_entity, bullet.bullet)) and mapentity.rect.colliderect(collision_entity.rect):
-						mapentity.refresh = 3
+					if mapentity.collision and isinstance(collision_entity, Player.Player) and mapentity.rect.colliderect(collision_entity.rect):
+						if collision_entity.rect.x < mapentity.rect.x:
+							collision_entity.rect.x -= config.PLAYER_MOVEMENT_SPEED
+						elif collision_entity.rect.x > mapentity.rect.x:
+							collision_entity.rect.x += config.PLAYER_MOVEMENT_SPEED
+						if collision_entity.rect.y < mapentity.rect.y:
+							collision_entity.rect.y -= config.PLAYER_MOVEMENT_SPEED
+						elif collision_entity.rect.y > mapentity.rect.y:
+							collision_entity.rect.y += config.PLAYER_MOVEMENT_SPEED
+						mapentity.refresh = 4
+
+					elif (isinstance(collision_entity, enemy.Enemy) or isinstance(collision_entity, Player.Player) or isinstance(collision_entity, bullet.bullet)) and mapentity.rect.colliderect(collision_entity.rect):
+						mapentity.refresh = 2
+
+
 
 		if enemycounter == 0:
 			self.win = True
