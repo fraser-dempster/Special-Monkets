@@ -193,6 +193,8 @@ class Game:
 					for mapentitylist in self.mapobjects:
 						for mapentity in mapentitylist:
 							if mapentity.bridge and entity.rect.colliderect(mapentity.rect):
+								self.sounds['stagecomplete'].play()
+
 								self.level += 1
 								self.initVars(self.level)
 
@@ -200,7 +202,11 @@ class Game:
 			elif isinstance(entity, enemy.Enemy):
 				enemycounter += 1
 
-			
+		for mapentitylist in self.mapobjects:
+			for mapentity in mapentitylist:
+				for collision_entity in self.entities:
+					if (isinstance(collision_entity, enemy.Enemy) or isinstance(collision_entity, Player.Player) or isinstance(collision_entity, bullet.bullet)) and mapentity.rect.colliderect(collision_entity.rect):
+						mapentity.refresh = 3
 
 		if enemycounter == 0:
 			self.win = True

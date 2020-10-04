@@ -12,10 +12,13 @@ class mapobject2(object):
       self.bridge = bridge
       self.collision = collision
       self.rect = pygame.Rect(x, y, self.xsize, self.ysize)
+      self.refresh = 1
      
     def update(self):
       pass
 
     def render(self, display):
-      display.blit(self.image, [self.x, self.y])
+      if self.refresh:
+        display.blit(self.image, [self.x, self.y])
+        self.refresh -= 1
 
