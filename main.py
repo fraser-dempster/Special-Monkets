@@ -36,7 +36,8 @@ class Game:
 		self.level = 1
 		self.player = Player.Player(500, 500)
 
-		self.levellist = [[maploader2.maploader2("./testmap1.txt", "testmap1_trees.txt").maplist, spawnloader.spawnloader("./ghostmap.txt", self.player).enemylist]]
+		self.levellist = [[maploader2.maploader2("./testmap1.txt", "testmap1_trees.txt").maplist, spawnloader.spawnloader("./ghostmap.txt", self.player).enemylist],
+		[maploader2.maploader2("./testmap2.txt", "testmap2_trees.txt").maplist, spawnloader.spawnloader("./ghostmap.txt", self.player).enemylist]]
 
 
 		if (not self.runMenu()):
@@ -83,15 +84,22 @@ class Game:
 			levellist.append(ghost.ghost(x, y, self.player))
 		return levellist
 
-	def initVars(self, level):
+	def initVars(self, level):		
+		
+
 		self.win = 0
 		self.player.rect.x = 500
 		self.player.rect.y = 500
-
+		self.player.bananas = 3
 
 		#self.mapobjects = [mapobject2.mapobject2(100, 100, True, 1)]
-		self.mapobjects = self.levellist[self.level - 1][0]
-		self.entities = self.levellist[self.level - 1][1]
+		if (level < 3):
+			self.mapobjects = maploader2.maploader2("./testmap2.txt", "testmap2_trees.txt").maplist
+			self.entities = self.generate_list()
+		else:
+			self.mapobjects = maploader2.maploader2("./testmap1.txt", "testmap1_trees.txt").maplist
+			self.entities = self.generate_list()
+
 		for mapentitylist in self.mapobjects:
 			for mapentity in mapentitylist:
 				mapentity.refresh = 1
