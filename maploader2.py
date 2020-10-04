@@ -3,13 +3,16 @@ import math
 import image_loader
 import config
 import os
+import mapobject2
 
-class mapobject2(object):
+class maploader2(object):
 		def __init__(self, filepath):
 			self.path = filepath
 			self.maplist = []
 
 			self.referenceList = []
+			self.preLoadImages("./images/ArenaTiles/")
+			self.loadMapFromFile("./testmap.txt")
 
 		def preLoadImages(self, path):
 			for file in os.listdir(path):
@@ -18,10 +21,18 @@ class mapobject2(object):
 		def loadMapFromFile(self, path):
 			with open(path, "r") as f:
 				file_data = f.readlines()
+			j = 0
 			for data in file_data:
 				tempList = []
-				for char in data.split(data):
-					if char:
-						tempList.append(self.referenceList[int(char)])
+				i = 0
+				for char in data:
+					if char != "\n":
+						tmp = mapobject2.mapobject2(i, j, False)
+						tmp.image = self.referenceList[ord(char) - ord('a')]
+						tmp.image = pygame.transform.scale(tmp.image, (config.TILEXSIZE, config.TILEYSIZE))
+						tempList.append(tmp)
+						i += 32
+				j += 32
+
 				self.maplist.append(tempList)
 

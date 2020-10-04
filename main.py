@@ -13,6 +13,7 @@ import ui
 import menu
 import button
 import mapobject2
+import maploader2
 
 WHITE = 255,255,255
 BLACK = 0,0,0
@@ -26,8 +27,11 @@ class Game:
 		self.running = False
 		self.initScreen() # Initialise screen settings
 		self.initSounds()
-		#if (not self.runMenu()):
-		#	return
+		self.maploader = maploader2.maploader2("./test.txt")
+		self.mapobjects = self.maploader.maplist
+
+		if (not self.runMenu()):
+			return
 		self.initVars()
 		self.run()
 
@@ -70,9 +74,13 @@ class Game:
 
 	def initVars(self):
 		self.player = Player.Player(500, 500)
+		#self.mapobjects = [mapobject2.mapobject2(100, 100, True, 1)]
 		self.entities = self.generate_list()
-		self.mapobjects = [mapobject2.mapobject2(100, 100, True, 1)]
+
 		self.level = 1
+		
+
+
 		self.running = True
 	
 	def initSounds(self):
@@ -104,8 +112,7 @@ class Game:
 	def run(self):
 		
 		while self.running:
-			self.gameScreen.fill(BLACK) #Reset game screen
-
+			 #Reset game screen
 			self.update()
 			self.render()
 
@@ -151,28 +158,25 @@ class Game:
 						self.sounds['gameover'].play()
 						for i in self.music:
 							self.music[i].stop()
-
-		# Check for player/enemy - solid background collision
-
-		for entity in self.mapobjects:
-			if isinstance(entity, mapobject2.mapobject2) and entity.collision:
-				for collision_entity in self.entities:
-					if (isinstance(collision_entity, enemy.Enemy) or isinstance(collision_entity, Player.Player)) and entity.rect.colliderect(collision_entity.rect):
-						print("collided)")
-
 		self.entities = [x for x in self.entities if not x.isDestroyed()]	
 
-			# Check for player-enemy collision
-
-			
-
+		# Check for player/enemy - solid background collision
+		
+#		for entity in self.mapobjects:
+#			if isinstance(entity, mapobject2.mapobject2) and entity.collision:
+#				for collision_entity in self.entities:
+#					if (isinstance(collision_entity, enemy.Enemy) or isinstance(collision_entity, Player.Player)) and entity.rect.colliderect(collision_entity.rect):
+#						print("collided)")
 
 	def render(self):
-		for mapentity in self.mapobjects:
-			mapentity.render(self.gameScreen)
+		for line in self.mapobjects:
+			for mapentity in line:
+				mapentity.render(self.gameScreen)
 
 		for entity in self.entities:
 			entity.render(self.gameScreen)
+
+				
 		pygame.display.update()
 
 def main():

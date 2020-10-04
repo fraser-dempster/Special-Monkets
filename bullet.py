@@ -14,7 +14,7 @@ class bullet(object):
         self.x_vel = math.cos(self.angle) * self.speed
         self.y_vel = math.sin(self.angle) * self.speed
         self.image = image_loader.AnimatedImage("ThrowingBanana", xsize = self.xsize, ysize = self.ysize)
-        self.rect = self.rect = pygame.Rect(x, y, self.xsize, self.ysize)
+        self.rect = pygame.Rect(x, y, self.xsize, self.ysize)
 
         self.hascollided = False
         self.isactive = True

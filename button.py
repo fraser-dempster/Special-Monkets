@@ -8,6 +8,6 @@ class button(object):
     self.xsize = config.STARTXSIZE
     self.ysize = config.STARTYSIZE
     self.image = pygame.image.load("./images/TitleScreen/start.png")
-    pygame.transform.scale(self.image, (self.xsize, self.ysize))
+    self.image = pygame.transform.scale(self.image, (self.xsize, self.ysize))
     self.rect = pygame.Rect(config.STARTX, config.STARTY, self.xsize, self.ysize)
     self.display.blit(self.image, [config.STARTX, config.STARTY])
