@@ -11,6 +11,7 @@ class Player(object):
 		self.rect = pygame.Rect(x, y, self.xsize, self.ysize)
 
 		self.hascollided = False
+		self.bananas = 3
 		self.initialiseVars()
 
 	def initialiseVars(self):

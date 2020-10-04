@@ -4,8 +4,8 @@ import os
 class MapLoader:
 
 	def __init__(self):
-		self.referenceList = []
-		self.imageList = []
+		self.referenceList = [] # where all the images are loaded
+		self.imageList = [] # where all the images are organised
 
 		self.mapList = []
 
@@ -30,10 +30,7 @@ class MapLoader:
 		for itemList in self.imageList:
 			tempList = []
 			for item in itemList:
-				if item == 0:
-					tempList.append(self.imageList)
-				else:
-					pass
+				tempList.append(self.imageList[0])
 
 	def render(self, display):
 		i, j = 0, 0

@@ -6,7 +6,7 @@ class AnimatedImage:
 	def __init__(self, path, xsize = config.DEFAULT_IMAGE_SIZEX, ysize = config.DEFAULT_IMAGE_SIZEY):
 		self.imageList = []
 		self.timer = 0
-		self.threshold = 30
+		self.threshold = config.THRESHOLD
 		self.imageIndex = 0
 		self.active = False
 		self.xsize = xsize
