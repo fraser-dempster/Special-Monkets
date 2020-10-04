@@ -13,7 +13,7 @@ class mapobject2(object):
       self.collision = collision
       self.rect = pygame.Rect(x, y, self.xsize, self.ysize)
       self.refresh = 1
-     
+
     def update(self):
       pass
 

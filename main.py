@@ -1,7 +1,6 @@
 import pygame
 import threading
 import os, sys
-import map_object
 import enemy
 import Player
 import bullet

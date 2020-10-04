@@ -1,4 +1,3 @@
-import map_object
 import enemy
 import Player
 import bullet
