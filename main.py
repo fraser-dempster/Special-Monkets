@@ -86,7 +86,9 @@ class Game:
 		#self.mapobjects = [mapobject2.mapobject2(100, 100, True, 1)]
 		self.mapobjects = self.level1
 		self.entities = self.generate_list()
-
+		for mapentitylist in self.mapobjects:
+			for mapentity in mapentitylist:
+				mapentity.refresh = 1
 		self.running = True
 	
 	def initSounds(self):
@@ -130,7 +132,6 @@ class Game:
 				if event.type == pygame.MOUSEBUTTONDOWN:
 					if event.button == 1:
 						if b.rect.collidepoint(event.pos):
-							self.level = 1
 							self.music['CATDOG'].stop()
 							self.music['normal'].play(-1)
 							self.initVars(self.level)
@@ -194,9 +195,10 @@ class Game:
 						for mapentity in mapentitylist:
 							if mapentity.bridge and entity.rect.colliderect(mapentity.rect):
 								self.sounds['stagecomplete'].play()
-
+								self.win = 0
 								self.level += 1
 								self.initVars(self.level)
+								return
 
 
 			elif isinstance(entity, enemy.Enemy):
