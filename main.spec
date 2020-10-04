@@ -9,7 +9,7 @@ added_files = [     #Any variable name works
      ]
 
 a = Analysis(['main.py'],
-             pathex=['C:\\Users\\Sven\\gamejam'],
+             pathex=['.'],
              binaries=[],
              datas=added_files,
              hiddenimports=[],
