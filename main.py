@@ -99,7 +99,7 @@ class Game:
 			self.mapobjects = maploader2.maploader2("./testmap1.txt", "testmap1_trees.txt").maplist
 			self.entities = self.generate_list()
 
-		if (level == 1):
+		if (level == 6):
 			self.gameScreen.blit(pygame.image.load("./images/Win_screen.png"), [0, 0])
 			pygame.display.update()
 			self.music['normal'].stop()
