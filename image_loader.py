@@ -28,3 +28,14 @@ class AnimatedImage:
 		if self.imageIndex == len(self.imageList):
 			self.imageIndex = 0
 		display.blit(self.imageList[self.imageIndex], [x, y])
+<<<<<<< Updated upstream
+=======
+
+class Image:
+
+	def __init__(self):
+		pass
+
+	def render(self, display, x, y):
+		display.blit(display, [x, y])
+>>>>>>> Stashed changes
