@@ -85,7 +85,7 @@ class Game:
 		return levellist
 
 	def initVars(self, level):		
-		
+		self.player.hascollided = False
 
 		self.win = 0
 		self.player.rect.x = 500
@@ -147,7 +147,7 @@ class Game:
 					if event.button == 1:
 						if b.rect.collidepoint(event.pos):
 							self.music['CATDOG'].stop()
-							self.music['normal'].play(-1)
+							self.music['robot'].play(-1)
 							self.initVars(self.level)
 							return
 
