@@ -31,6 +31,9 @@ class maploader2(object):
 						tmp = mapobject2.mapobject2(i, j, False)
 						tmp.image = self.referenceList[ord(char) - ord('a')]
 					#	if (char == ""):
+						if (char == 'g'):
+							tmp.bridge = True
+
 						tmp.image = pygame.transform.scale(tmp.image, (config.TILEXSIZE, config.TILEYSIZE))
 						tempList.append(tmp)
 						i += 32

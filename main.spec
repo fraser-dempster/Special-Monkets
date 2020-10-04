@@ -5,7 +5,7 @@ block_cipher = None
 added_files = [     #Any variable name works
      ( 'sounds', 'sounds' ),
      ( 'images', 'images' ),
-     ( 'testmap.txt', '.' )
+     ( '*.txt', '.' )
      ]
 
 a = Analysis(['main.py'],

@@ -4,11 +4,12 @@ import image_loader
 import config
 
 class mapobject2(object):
-    def __init__(self, x, y, collision):
+    def __init__(self, x, y, collision, bridge = False):
       self.xsize = config.TILEXSIZE
       self.ysize = config.TILEYSIZE
       self.x = x
       self.y = y
+      self.bridge = bridge
       self.collision = collision
       self.rect = pygame.Rect(x, y, self.xsize, self.ysize)
      

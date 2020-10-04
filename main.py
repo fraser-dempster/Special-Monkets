@@ -33,6 +33,7 @@ class Game:
 		self.initScreen() # Initialise screen settings
 		self.initSounds()
 		self.maploader = maploader2.maploader2("./test.txt")
+		self.level = 1
 		self.level1 = self.maploader.maplist
 
 		if (not self.runMenu()):
@@ -68,22 +69,24 @@ class Game:
 		self.clock = pygame.time.Clock()
 
 	def generate_list(self):
-		return [self.player,ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
-				ui.ui(self.player),
-				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
-				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
-				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
-				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
-				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
-				zombie.zombie(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player)]
+		levellist = [self.player,ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player), ui.ui(self.player)]
+		for i in range(self.level * 3 - 1):
+			x = random.randint(0, config.SCREENX)
+			y = random.randint(0, config.SCREENY)
+
+			while abs(x - self.player.rect.x) < config.NOSPAWNX or abs(y - self.player.rect.y) < config.NOSPAWNY:
+				x = random.randint(0, config.SCREENX)
+				y = random.randint(0, config.SCREENY)
+			levellist.append(ghost.ghost(x, y, self.player))
+		return levellist
 
 	def initVars(self, level):
+		self.win = 0
 		self.player = Player.Player(500, 500)
 		#self.mapobjects = [mapobject2.mapobject2(100, 100, True, 1)]
+		self.mapobjects = self.level1
 		self.entities = self.generate_list()
 
-		if (level == 1):
-			self.mapobjects = self.level1
 		self.running = True
 	
 	def initSounds(self):
@@ -127,9 +130,10 @@ class Game:
 				if event.type == pygame.MOUSEBUTTONDOWN:
 					if event.button == 1:
 						if b.rect.collidepoint(event.pos):
+							self.level = 1
 							self.music['CATDOG'].stop()
 							self.music['normal'].play(-1)
-							self.initVars(1)
+							self.initVars(self.level)
 							return
 
 	def run(self):
@@ -144,6 +148,7 @@ class Game:
 
 	def update(self):
 		
+		
 		# Quit game when needed
 
 		x, y = pygame.mouse.get_pos()
@@ -156,6 +161,7 @@ class Game:
 					self.player.bananas -= 1
 					self.entities.append(bullet.bullet(self.player.rect.x, self.player.rect.y, x, y))
 
+		enemycounter = 0
 		for entity in self.entities:
 			entity.update()
 
@@ -174,7 +180,7 @@ class Game:
 			# Check for player-enemy collision
 
 
-			if isinstance(entity, Player.Player):
+			elif isinstance(entity, Player.Player):
 				for collision_entity in self.entities:
 					if isinstance(collision_entity, enemy.Enemy) and entity.rect.colliderect(collision_entity.rect):
 						entity.hascollided = True
@@ -183,6 +189,21 @@ class Game:
 							self.music[i].stop()
 						self.gameOver()
 						return
+				if (self.win):
+					for mapentitylist in self.mapobjects:
+						for mapentity in mapentitylist:
+							if mapentity.bridge and entity.rect.colliderect(mapentity.rect):
+								self.level += 1
+								self.initVars(self.level)
+
+
+			elif isinstance(entity, enemy.Enemy):
+				enemycounter += 1
+
+			
+
+		if enemycounter == 0:
+			self.win = True
 
 		self.entities = [x for x in self.entities if not x.isDestroyed()]	
 
