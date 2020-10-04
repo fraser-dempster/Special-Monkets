@@ -12,8 +12,8 @@ class maploader2(object):
 
 			self.referenceList = []
 			self.preLoadImages("./images/ArenaTiles/")
-			self.loadMapFromFile("./testmap.txt")
-			self.loadMapFromFile("./testmap2.txt")
+			self.loadMapFromFile("testmap1.txt")
+			self.loadMapFromFile("testmap1_trees.txt")
 
 		def preLoadImages(self, path):
 			for file in os.listdir(path):
