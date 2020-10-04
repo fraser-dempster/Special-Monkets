@@ -14,6 +14,7 @@ import menu
 import button
 import mapobject2
 import maploader2
+import zombie
 
 WHITE = 255,255,255
 BLACK = 0,0,0
@@ -70,7 +71,7 @@ class Game:
 				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
 				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
 				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
-				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player)]
+				zombie.zombie(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player)]
 
 	def initVars(self):
 		self.player = Player.Player(500, 500)
