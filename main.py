@@ -100,6 +100,16 @@ class Game:
 			self.mapobjects = maploader2.maploader2("./testmap1.txt", "testmap1_trees.txt").maplist
 			self.entities = self.generate_list()
 
+		if (level == 1):
+			self.gameScreen.blit(pygame.image.load("./images/Win_screen.png"), [0, 0])
+			pygame.display.update()
+			self.music['normal'].stop()
+			self.music['CATDOG'].play(-1)
+
+			while True:
+				pass
+
+
 		for mapentitylist in self.mapobjects:
 			for mapentity in mapentitylist:
 				mapentity.refresh = 1
