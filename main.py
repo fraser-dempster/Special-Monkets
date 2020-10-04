@@ -7,14 +7,12 @@ import Player
 import bullet
 import image_loader
 import config
-<<<<<<< HEAD
-=======
 import ghost
 import random
 import ui
 import menu
 import button
->>>>>>> f9da62a58382758d0815072d9b37c8be9642c393
+import mapobject2
 
 WHITE = 255,255,255
 BLACK = 0,0,0
@@ -28,17 +26,11 @@ class Game:
 		self.running = False
 		self.initScreen() # Initialise screen settings
 		self.initSounds()
-<<<<<<< HEAD
-		self.initVars()
-
-		self.run()
-=======
-		if (not self.runMenu()):
-			return
+		#if (not self.runMenu()):
+		#	return
 		self.initVars()
 		self.run()
 
->>>>>>> f9da62a58382758d0815072d9b37c8be9642c393
 		
 	def runMenu(self):
 		m = menu.menu(self.gameScreen)
@@ -79,6 +71,7 @@ class Game:
 	def initVars(self):
 		self.player = Player.Player(500, 500)
 		self.entities = self.generate_list()
+		self.mapobjects = [mapobject2.mapobject2(100, 100, True, 1)]
 		self.level = 1
 		self.running = True
 	
@@ -129,7 +122,7 @@ class Game:
 				pygame.quit()
 
 			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_SPACE and self.player.bananas > 0:
+				if event.key == pygame.K_SPACE and self.player.bananas > 0 and not self.player.isDestroyed():
 					self.player.bananas -= 1
 					self.entities.append(bullet.bullet(self.player.rect.x, self.player.rect.y, x, y))
 
@@ -148,6 +141,9 @@ class Game:
 						collision_entity.bananas += 1
 						entity.hascollided = True
 
+			# Check for player-enemy collision
+
+
 			if isinstance(entity, Player.Player):
 				for collision_entity in self.entities:
 					if isinstance(collision_entity, enemy.Enemy) and entity.rect.colliderect(collision_entity.rect):
@@ -155,8 +151,14 @@ class Game:
 						self.sounds['gameover'].play()
 						for i in self.music:
 							self.music[i].stop()
-						
 
+		# Check for player/enemy - solid background collision
+
+		for entity in self.mapobjects:
+			if isinstance(entity, mapobject2.mapobject2) and entity.collision:
+				for collision_entity in self.entities:
+					if (isinstance(collision_entity, enemy.Enemy) or isinstance(collision_entity, Player.Player)) and entity.rect.colliderect(collision_entity.rect):
+						print("collided)")
 
 		self.entities = [x for x in self.entities if not x.isDestroyed()]	
 
@@ -166,6 +168,9 @@ class Game:
 
 
 	def render(self):
+		for mapentity in self.mapobjects:
+			mapentity.render(self.gameScreen)
+
 		for entity in self.entities:
 			entity.render(self.gameScreen)
 		pygame.display.update()
@@ -175,13 +180,8 @@ def main():
 	pygame.mixer.pre_init(44100, -16, 2, 512)
 	pygame.mixer.init() 
 	pygame.init()
-<<<<<<< HEAD
-
-	game = Game(1280, 720)
-=======
 	os.environ['SDL_VIDEO_CENTERED'] = '1'
 	game = Game(config.SCREENX, config.SCREENY)
->>>>>>> f9da62a58382758d0815072d9b37c8be9642c393
 
 if __name__ == "__main__":
 	main()
