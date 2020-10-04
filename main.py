@@ -65,7 +65,7 @@ class Game:
 
 	def initScreen(self):
 		self.gameScreen = pygame.display.set_mode([self.width, self.height]) # Set width and height
-		pygame.display.set_caption("Monkey Mullets")
+		pygame.display.set_caption("Mullet Monkey & the Glittery Banana")
 		icon = pygame.image.load("images\\MulletMonkeyIcon.PNG")
 		pygame.display.set_icon(icon)
 		pygame.display.set_mode()
