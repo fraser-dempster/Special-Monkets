@@ -1,6 +1,6 @@
 import pygame
 import threading
-import os
+import os, sys
 import map_object
 import enemy
 import Player
@@ -14,7 +14,11 @@ import menu
 import button
 import mapobject2
 import maploader2
+import retry
 import zombie
+
+if getattr(sys, 'frozen', False):
+    os.chdir(sys._MEIPASS)
 
 WHITE = 255,255,255
 BLACK = 0,0,0
@@ -29,11 +33,11 @@ class Game:
 		self.initScreen() # Initialise screen settings
 		self.initSounds()
 		self.maploader = maploader2.maploader2("./test.txt")
-		self.mapobjects = self.maploader.maplist
+		self.level1 = self.maploader.maplist
 
 		if (not self.runMenu()):
 			return
-		self.initVars()
+		self.initVars(1)
 		self.run()
 
 		
@@ -45,7 +49,7 @@ class Game:
 		while running:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
-					return False 
+					sys.exit() 
 				if event.type == pygame.MOUSEBUTTONDOWN:
 					if event.button == 1:
 						if b.rect.collidepoint(event.pos):
@@ -73,15 +77,13 @@ class Game:
 				ghost.ghost(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player),
 				zombie.zombie(random.randint(0, config.SCREENX), random.randint(0, config.SCREENY), self.player)]
 
-	def initVars(self):
+	def initVars(self, level):
 		self.player = Player.Player(500, 500)
 		#self.mapobjects = [mapobject2.mapobject2(100, 100, True, 1)]
 		self.entities = self.generate_list()
 
-		self.level = 1
-		
-
-
+		if (level == 1):
+			self.mapobjects = self.level1
 		self.running = True
 	
 	def initSounds(self):
@@ -110,6 +112,26 @@ class Game:
 		
 		#self.enemies.append(enemy.enemyObject(0, 0, 30))
 
+	def gameOver(self):
+		x = (config.SCREENX - config.GAMEOVERX) / 2
+		y = (config.SCREENY - config.GAMEOVERY) / 2
+		self.gameScreen.blit(pygame.image.load("./images/gameover.png"), [x, y])
+		b=retry.retry(self.gameScreen)
+		pygame.display.update()
+
+		running = True
+		while running:
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					sys.exit() 
+				if event.type == pygame.MOUSEBUTTONDOWN:
+					if event.button == 1:
+						if b.rect.collidepoint(event.pos):
+							self.music['CATDOG'].stop()
+							self.music['normal'].play(-1)
+							self.initVars(1)
+							return
+
 	def run(self):
 		
 		while self.running:
@@ -121,7 +143,7 @@ class Game:
 
 
 	def update(self):
-
+		
 		# Quit game when needed
 
 		x, y = pygame.mouse.get_pos()
@@ -159,6 +181,9 @@ class Game:
 						self.sounds['gameover'].play()
 						for i in self.music:
 							self.music[i].stop()
+						self.gameOver()
+						return
+
 		self.entities = [x for x in self.entities if not x.isDestroyed()]	
 
 		# Check for player/enemy - solid background collision

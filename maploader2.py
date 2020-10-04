@@ -29,10 +29,12 @@ class maploader2(object):
 					if char != "\n":
 						tmp = mapobject2.mapobject2(i, j, False)
 						tmp.image = self.referenceList[ord(char) - ord('a')]
+					#	if (char == ""):
 						tmp.image = pygame.transform.scale(tmp.image, (config.TILEXSIZE, config.TILEYSIZE))
 						tempList.append(tmp)
 						i += 32
 				j += 32
-
+			#	for data in tempList:
+			#		if data.image == 
 				self.maplist.append(tempList)
 

@@ -11,6 +11,8 @@ class MapLoader:
 
 		self.preLoadImages("images\\ArenaTiles")
 
+	
+
 	def preLoadImages(self, path):
 		for file in os.listdir(path):
 			self.imageList.append(pygame.image.load(f"{path}\\{file}"))
@@ -22,7 +24,7 @@ class MapLoader:
 		for data in file_data:
 			tempList = []
 			for char in data.split(data):
-				if char != "\\" or char != "n":
+				if char:
 					tempList.append(int(char))
 			self.imageList.append(tempList)
 
@@ -31,9 +33,12 @@ class MapLoader:
 			tempList = []
 			for item in itemList:
 				tempList.append(self.imageList[0])
+		#todo things
+		self.mapList = tempList
 
 	def render(self, display):
 		i, j = 0, 0
+		print(self.imageList)
 		for subList in self.mapList:
 			for image in subList:
 				display.blit(image, [j*32, i*32, 32, 32])
